@@ -1,0 +1,9 @@
+
+server {
+    server_name periscopecollaborations.com www.periscopecollaborations.com;
+    root /srv/static.periscopecollaborations.com;
+    index index.html;
+
+    location / { }
+}
+

@@ -1,0 +1,32 @@
+---
+
+- name: update all packages
+  apt: upgrade=dist update_cache=yes
+
+- name: disable ssh password auth
+  lineinfile: dest=/etc/ssh/sshd_config regexp="^PasswordAuthentication " line="PasswordAuthentication no" state="present"
+
+- name: allow ssh
+  ufw: rule=allow port=22 proto=tcp
+
+- name: allow www
+  ufw: rule=allow port=80 proto=tcp
+
+- name: disallow everything else 
+  ufw: state=enabled policy=deny
+
+- name: install unattended-upgrades
+  apt: pkg=unattended-upgrades state=installed
+
+- name: configure unattended upgrades
+  copy: src=10periodic dest=/etc/apt/apt.conf.d/10periodic
+
+- name: generate key pair
+  user: name=root generate_ssh_key=yes
+
+- name: copy public key back to local box
+  fetch: src=/root/.ssh/id_rsa.pub dest=./pubkeys/{{ inventory_hostname }}.pub flat=yes
+
+- name: reboot server
+  command: /sbin/reboot
+
