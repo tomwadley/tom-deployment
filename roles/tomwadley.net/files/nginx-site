@@ -1,6 +1,7 @@
 
 server {
-    root /srv/classic.tomwadley.net;
+    server_name tomwadley.net www.tomwadley.net;
+    root /srv/tomwadley.net;
     index index.html;
 
     location / { }
