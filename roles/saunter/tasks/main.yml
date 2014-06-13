@@ -1,0 +1,55 @@
+---
+
+- name: install nginx
+  apt: pkg=nginx state=installed
+
+- name: install git
+  apt: pkg=git state=installed
+
+- name: install nodejs
+  apt: pkg=nodejs state=installed
+
+- name: install nodejs-legacy
+  apt: pkg=nodejs-legacy state=installed
+
+- name: install npm
+  apt: pkg=npm state=installed
+
+- name: install grunt-cli
+  npm: name=grunt-cli global=yes
+
+- name: put rosawadley.com in known_hosts
+  lineinfile: dest=~/.ssh/known_hosts line="{{ lookup('file', 'known_hosts/rosawadley.com') }}" create=true
+
+- name: checkout repo
+  git: repo=ssh://tom@rosawadley.com:/mnt/storage/tom/git/meadgame.git dest=~/git/saunter version=origin/longpath
+  notify: reload nginx
+
+- name: install dependencies
+  command: npm install chdir=~/git/saunter
+
+- name: build 
+  command: grunt clean prod --map=longpathSmall.json chdir=~/git/saunter
+
+- name: create web root
+  file: path=/srv/saunter state=directory
+
+- name: copy files to web root
+  command: rsync -a --delete --exclude='.*' ~/git/saunter/build/ /srv/saunter/
+  changed_when: False
+
+- name: configure nginx site
+  copy: src=nginx-site dest=/etc/nginx/sites-available/saunter
+  notify: reload nginx
+
+- name: enable nginx site
+  file: src=/etc/nginx/sites-available/saunter dest=/etc/nginx/sites-enabled/saunter state=link
+  notify: reload nginx
+
+- name: disable default nginx site
+  file: path=/etc/nginx/sites-enabled/default state=absent
+  notify: reload nginx
+
+- name: start nginx on boot
+  service: name=nginx enabled=yes 
+

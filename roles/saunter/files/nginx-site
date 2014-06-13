@@ -1,0 +1,9 @@
+
+server {
+    server_name saunter.tomwadley.net;
+    root /srv/saunter;
+    index index.html;
+
+    location / { }
+}
+
