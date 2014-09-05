@@ -1,0 +1,9 @@
+---
+
+- hosts: local
+  roles:
+    - setup
+    - tomwadley.net
+    - periscopecollaborations.com
+    - saunter
+

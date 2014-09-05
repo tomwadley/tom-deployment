@@ -2,9 +2,11 @@
 
 - name: update all packages
   apt: upgrade=dist update_cache=yes
+  notify: reboot
 
 - name: disable ssh password auth
   lineinfile: dest=/etc/ssh/sshd_config regexp="^PasswordAuthentication " line="PasswordAuthentication no" state="present"
+  notify: restart ssh
 
 - name: allow ssh
   ufw: rule=allow port=22 proto=tcp
@@ -20,13 +22,4 @@
 
 - name: configure unattended upgrades
   copy: src=10periodic dest=/etc/apt/apt.conf.d/10periodic
-
-- name: generate key pair
-  user: name=root generate_ssh_key=yes
-
-- name: copy public key back to local box
-  fetch: src=/root/.ssh/id_rsa.pub dest=./pubkeys/{{ inventory_hostname }}.pub flat=yes
-
-- name: reboot server
-  command: /sbin/reboot
 

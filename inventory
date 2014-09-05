@@ -1,2 +1,6 @@
 [server]
 root@178.62.61.252
+
+[local]
+root@localhost:2222
+
