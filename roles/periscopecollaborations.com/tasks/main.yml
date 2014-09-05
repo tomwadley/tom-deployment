@@ -1,8 +1,5 @@
 ---
 
-- name: install nginx
-  apt: pkg=nginx state=installed
-
 - name: install git
   apt: pkg=git state=installed
 
@@ -28,11 +25,4 @@
 - name: configure nginx
   copy: src=nginx-conf dest=/etc/nginx/conf.d/static.periscopecollaborations.com.conf
   notify: reload nginx
-
-- name: disable default nginx site
-  file: path=/etc/nginx/sites-enabled/default state=absent
-  notify: reload nginx
-
-- name: start nginx on boot
-  service: name=nginx enabled=yes 
 

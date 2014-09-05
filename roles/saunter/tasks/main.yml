@@ -1,8 +1,5 @@
 ---
 
-- name: install nginx
-  apt: pkg=nginx state=installed
-
 - name: install git
   apt: pkg=git state=installed
 
@@ -45,11 +42,4 @@
 - name: enable nginx site
   file: src=/etc/nginx/sites-available/saunter dest=/etc/nginx/sites-enabled/saunter state=link
   notify: reload nginx
-
-- name: disable default nginx site
-  file: path=/etc/nginx/sites-enabled/default state=absent
-  notify: reload nginx
-
-- name: start nginx on boot
-  service: name=nginx enabled=yes 
 

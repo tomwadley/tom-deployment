@@ -2,7 +2,7 @@
 
 - name: update all packages
   apt: upgrade=dist update_cache=yes
-  notify: reboot
+  notify: reboot if required
 
 - name: disable ssh password auth
   lineinfile: dest=/etc/ssh/sshd_config regexp="^PasswordAuthentication " line="PasswordAuthentication no" state="present"

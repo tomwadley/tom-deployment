@@ -1,0 +1,12 @@
+---
+
+- name: install nginx
+  apt: pkg=nginx state=installed
+
+- name: disable default nginx site
+  file: path=/etc/nginx/sites-enabled/default state=absent
+  notify: reload nginx
+
+- name: start nginx on boot
+  service: name=nginx enabled=yes 
+
