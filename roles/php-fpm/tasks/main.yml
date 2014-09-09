@@ -1,0 +1,15 @@
+---
+
+- name: install php-fpm
+  apt: pkg=php5-fpm state=installed
+
+- name: disable cgi.fix_pathinfo for security reasons
+  lineinfile: dest=/etc/php5/fpm/php.ini regexp='^;?cgi\.fix_pathinfo=' line='cgi.fix_pathinfo=0'
+
+- name: disable default pool
+  command: mv /etc/php5/fpm/pool.d/www.conf /etc/php5/fpm/pool.d/www.disabled creates=/etc/php5/fpm/pool.d/www.disabled
+  notify: reload php-fpm
+
+- name: start php-fpm on boot
+  service: name=php5-fpm enabled=yes 
+

@@ -1,0 +1,66 @@
+---
+
+- name: install php modules required by wordpress
+  apt: pkg={{ item }} state=installed
+  with_items:
+    - php5-mysql
+    - php5-curl
+    - php5-mcrypt
+    - php5-gd
+
+- name: install python-mysqldb for mysql_db module
+  apt: pkg=python-mysqldb state=installed
+
+- name: create web root
+  file: path=/srv/rosanussbaum.com state=directory
+
+- name: get filename of existing database dump file
+  set_fact: dbdump="{{ wp_dbdump | basename }}"
+
+- name: upload existing database dump
+  copy: src={{ wp_dbdump }} dest=/tmp/{{ dbdump }}
+
+- name: create database
+  mysql_db: name=wp_rosanussbaum login_user=root login_password=pass1234 state=present
+  register: db
+
+- name: import database dump
+  mysql_db: name=wp_rosanussbaum login_user=root login_password=pass1234 state=import target=/tmp/{{ dbdump }}
+  when: db.changed
+
+- name: create mysql user and grant privs for db
+  mysql_user: name=wp_rosanussbaum login_user=root login_password=pass1234 priv=wp_rosanussbaum.*:ALL password=pass1234_rn
+
+- name: get filename of existing wordpress tarball
+  set_fact: tarball="{{ wp_tarball | basename }}"
+
+- name: upload tarball
+  copy: src={{ wp_tarball }} dest=/tmp/{{ tarball }}
+
+- name: extract tarball without container directory
+  command: tar xzf /tmp/{{ tarball }} --strip 1 chdir=/srv/rosanussbaum.com creates=index.php
+    
+- name: set ownership
+  file: path=/srv/rosanussbaum.com owner=www-data group=www-data recurse=yes
+
+- name: set db name in wp config
+  lineinfile: dest=/srv/rosanussbaum.com/wp-config.php regexp='^define.*DB_NAME.*;' line="define('DB_NAME', 'wp_rosanussbaum');"
+
+- name: set db user in wp config
+  lineinfile: dest=/srv/rosanussbaum.com/wp-config.php regexp='^define.*DB_USER.*;' line="define('DB_USER', 'wp_rosanussbaum');"
+
+- name: set db password in wp config
+  lineinfile: dest=/srv/rosanussbaum.com/wp-config.php regexp='^define.*DB_PASSWORD.*;' line="define('DB_PASSWORD', 'pass1234_rn');"
+
+- name: configure php-fpm pool
+  copy: src=php-fpm.conf dest=/etc/php5/fpm/pool.d/rosanussbuam.com.conf
+  notify: reload php-fpm
+
+- name: configure nginx site
+  copy: src=nginx-site dest=/etc/nginx/sites-available/rosanussbaum.com
+  notify: reload nginx
+
+- name: enable nginx site
+  file: src=/etc/nginx/sites-available/rosanussbaum.com dest=/etc/nginx/sites-enabled/rosanussbaum.com state=link
+  notify: reload nginx
+

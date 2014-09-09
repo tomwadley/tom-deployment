@@ -1,0 +1,15 @@
+---
+
+- debconf: name=mysql-server question='mysql-server/root_password' value=pass1234 vtype='password'
+- debconf: name=mysql-server question='mysql-server/root_password_again' value=pass1234 vtype='password'
+
+- name: install mysql-server
+  apt: name=mysql-server state=present
+
+- name: copy mysql config
+  copy: src=my.cnf dest=/etc/mysql/conf.d/my.cnf
+  notify: reload mysql
+
+- name: start mysql on boot
+  service: name=mysql enabled=yes 
+

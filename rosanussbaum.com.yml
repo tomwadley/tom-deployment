@@ -1,0 +1,6 @@
+---
+
+- hosts: rntest
+  roles:
+    - rosanussbaum.com
+

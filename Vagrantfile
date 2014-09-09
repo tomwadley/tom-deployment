@@ -10,6 +10,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.ssh.forward_agent = true
 
+  config.vm.synced_folder ".", "/vagrant"
+
   config.vm.provision "shell",
     inline: "cp ~vagrant/.ssh/authorized_keys ~root/.ssh/authorized_keys"
 
