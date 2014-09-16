@@ -2,6 +2,6 @@
 
 - hosts: nicegallery
   roles:
-    - nicegallery.co.uk
+    - { role: wordpress, site_name: nicegallery, host_name: nicegallery.co.uk }
 
 

@@ -1,8 +1,8 @@
 
 server {
     listen 80;
-    server_name nicegallery.co.uk www.nicegallery.co.uk;
-    root /srv/nicegallery.co.uk;
+    server_name {{ host_name }} www.{{ host_name }};
+    root /srv/{{ host_name }};
     index index.php index.html index.htm;
 
     client_max_body_size 64M;
@@ -29,7 +29,7 @@ server {
         try_files $uri =404;
         fastcgi_split_path_info ^(.+\.php)(/.+)$;
         fastcgi_index index.php;
-        fastcgi_pass unix:/var/run/php5-fpm-nicegallery.co.uk.sock;
+        fastcgi_pass unix:/var/run/php5-fpm-{{ host_name }}.sock;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         include fastcgi_params;
     }

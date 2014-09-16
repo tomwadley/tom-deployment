@@ -2,5 +2,5 @@
 
 - hosts: rntest
   roles:
-    - rosanussbaum.com
+    - { role: wordpress, site_name: rosanussbaum, host_name: rosanussbaum.com }
 
