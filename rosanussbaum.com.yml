@@ -1,6 +1,6 @@
 ---
 
-- hosts: rntest
+- hosts: rosa-server
   roles:
     - { role: wordpress, site_name: rosanussbaum, host_name: rosanussbaum.com }
 

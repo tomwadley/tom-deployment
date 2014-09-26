@@ -1,11 +1,8 @@
 [server]
 root@178.62.61.252
 
-[rntest]
-root@178.62.17.43
-
-[nicegallery]
-root@178.62.16.96
+[rosa-server]
+root@178.62.42.221
 
 [local]
 root@localhost:2222

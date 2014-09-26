@@ -1,6 +1,6 @@
 ---
 
-- hosts: nicegallery
+- hosts: rosa-server
   roles:
     - { role: wordpress, site_name: nicegallery, host_name: nicegallery.co.uk }
 
