@@ -33,6 +33,18 @@
   copy: src=nginx-site dest=/etc/nginx/sites-available/tomwadley.net
   notify: reload nginx
 
+- name: create ssl key directory
+  file: path=/etc/nginx/ssl state=directory
+
+- name: upload ssl cert bundle
+  copy: src=tomwadley.net.bundle.crt dest=/etc/nginx/ssl/tomwadley.net.bundle.crt mode=0600
+
+- name: decrypt ssl private key
+  include_vars: ssl_private_key.yml
+
+- name: upload ssl private key
+  copy: content="{{ ssl_private_key }}" dest=/etc/nginx/ssl/tomwadley.net.key mode=0600
+
 - name: enable nginx site
   file: src=/etc/nginx/sites-available/tomwadley.net dest=/etc/nginx/sites-enabled/tomwadley.net state=link
   notify: reload nginx
