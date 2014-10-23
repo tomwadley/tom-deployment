@@ -10,3 +10,9 @@
 - name: start nginx on boot
   service: name=nginx enabled=yes 
 
+- name: create ssl key directory
+  file: path=/etc/nginx/ssl state=directory
+
+- name: upload ssl config include
+  copy: src=ssl-config dest=/etc/nginx/ssl/config
+  notify: reload nginx
