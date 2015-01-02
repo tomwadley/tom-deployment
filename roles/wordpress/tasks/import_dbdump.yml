@@ -1,0 +1,18 @@
+---
+
+- name: get filename of existing database dump file
+  set_fact: dbdump="{{ wp_dbdump | basename }}"
+
+- name: upload existing database dump
+  copy: src={{ wp_dbdump }} dest=/tmp/{{ dbdump }}
+
+- name: create database
+  mysql_db: name=wp_{{ site_name }} login_user=root login_password=pass1234 state=present
+  register: db
+
+- name: import database dump
+  mysql_db: name=wp_{{ site_name }} login_user=root login_password=pass1234 state=import target=/tmp/{{ dbdump }}
+  when: db.changed
+
+- name: create mysql user and grant privs for db
+  mysql_user: name=wp_{{ site_name }} login_user=root login_password=pass1234 priv=wp_{{ site_name }}.*:ALL password=pass1234_{{ site_name }}

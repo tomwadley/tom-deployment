@@ -1,0 +1,23 @@
+---
+
+- name: get filename of existing wordpress tarball
+  set_fact: tarball="{{ wp_tarball | basename }}"
+
+- name: upload tarball
+  copy: src={{ wp_tarball }} dest=/tmp/{{ tarball }}
+
+- name: extract tarball without container directory
+  command: tar xzf /tmp/{{ tarball }} --strip 1 chdir=/srv/{{ host_name }} creates=index.php
+    
+- name: set ownership
+  file: path=/srv/{{ host_name }} owner=www-data group=www-data recurse=yes
+
+- name: set db name in wp config
+  lineinfile: dest=/srv/{{ host_name }}/wp-config.php regexp='^define.*DB_NAME.*;' line="define('DB_NAME', 'wp_{{ site_name }}');"
+
+- name: set db user in wp config
+  lineinfile: dest=/srv/{{ host_name }}/wp-config.php regexp='^define.*DB_USER.*;' line="define('DB_USER', 'wp_{{ site_name }}');"
+
+- name: set db password in wp config
+  lineinfile: dest=/srv/{{ host_name }}/wp-config.php regexp='^define.*DB_PASSWORD.*;' line="define('DB_PASSWORD', 'pass1234_{{ site_name }}');"
+

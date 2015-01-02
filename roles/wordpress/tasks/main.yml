@@ -1,6 +1,8 @@
 ---
 
-- debug: msg="Importing Wordpress site '{{ site_name }}' using tarball '{{ wp_tarball }}' and database dump '{{ wp_dbdump }}'"
+- debug: msg="Importing Wordpress site '{{ site_name }}'"
+- debug: msg="wp_dbdump = {{ wp_dbdump | default("not defined - no database will be imported") }}"
+- debug: msg="wp_tarball = {{ wp_tarball | default("not defined - no wordpress tarball will be extracted") }}"
 
 - name: install php modules required by wordpress
   apt: pkg={{ item }} state=installed
@@ -16,43 +18,13 @@
 - name: create web root
   file: path=/srv/{{ host_name }} state=directory
 
-- name: get filename of existing database dump file
-  set_fact: dbdump="{{ wp_dbdump | basename }}"
+- include: import_dbdump.yml
+  when: wp_dbdump is defined
+  notify: reload php-fpm
 
-- name: upload existing database dump
-  copy: src={{ wp_dbdump }} dest=/tmp/{{ dbdump }}
-
-- name: create database
-  mysql_db: name=wp_{{ site_name }} login_user=root login_password=pass1234 state=present
-  register: db
-
-- name: import database dump
-  mysql_db: name=wp_{{ site_name }} login_user=root login_password=pass1234 state=import target=/tmp/{{ dbdump }}
-  when: db.changed
-
-- name: create mysql user and grant privs for db
-  mysql_user: name=wp_{{ site_name }} login_user=root login_password=pass1234 priv=wp_{{ site_name }}.*:ALL password=pass1234_{{ site_name }}
-
-- name: get filename of existing wordpress tarball
-  set_fact: tarball="{{ wp_tarball | basename }}"
-
-- name: upload tarball
-  copy: src={{ wp_tarball }} dest=/tmp/{{ tarball }}
-
-- name: extract tarball without container directory
-  command: tar xzf /tmp/{{ tarball }} --strip 1 chdir=/srv/{{ host_name }} creates=index.php
-    
-- name: set ownership
-  file: path=/srv/{{ host_name }} owner=www-data group=www-data recurse=yes
-
-- name: set db name in wp config
-  lineinfile: dest=/srv/{{ host_name }}/wp-config.php regexp='^define.*DB_NAME.*;' line="define('DB_NAME', 'wp_{{ site_name }}');"
-
-- name: set db user in wp config
-  lineinfile: dest=/srv/{{ host_name }}/wp-config.php regexp='^define.*DB_USER.*;' line="define('DB_USER', 'wp_{{ site_name }}');"
-
-- name: set db password in wp config
-  lineinfile: dest=/srv/{{ host_name }}/wp-config.php regexp='^define.*DB_PASSWORD.*;' line="define('DB_PASSWORD', 'pass1234_{{ site_name }}');"
+- include: extract_tarball.yml
+  when: wp_tarball is defined
+  notify: reload php-fpm
 
 - name: configure php-fpm pool
   template: src=php-fpm.conf dest=/etc/php5/fpm/pool.d/{{ host_name }}.conf
