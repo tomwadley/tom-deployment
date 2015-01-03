@@ -1,4 +1,5 @@
 ---
+#TODO: finish new installation functionality
 
 - name: get wordpress tarball
   get_url: url=https://wordpress.org/latest.tar.gz dest=/tmp

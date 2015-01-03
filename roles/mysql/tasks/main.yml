@@ -1,8 +1,11 @@
 ---
 
-- debconf: name=mysql-server question='mysql-server/root_password' value=pass1234 vtype='password'
+- name: decrypt root password
+  include_vars: mysql_root_password.yml
+
+- debconf: name=mysql-server question='mysql-server/root_password' value={{ mysql_root_password }} vtype='password'
   changed_when: False
-- debconf: name=mysql-server question='mysql-server/root_password_again' value=pass1234 vtype='password'
+- debconf: name=mysql-server question='mysql-server/root_password_again' value={{ mysql_root_password }} vtype='password'
   changed_when: False
 
 - name: install mysql-server

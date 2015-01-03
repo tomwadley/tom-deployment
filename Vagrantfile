@@ -19,6 +19,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ansible.inventory_path = "inventory"
     ansible.limit = "local"
     ansible.playbook = "local.yml"
+    ansible.vault_password_file = "~/.ansible_vault"
     ansible.raw_ssh_args = ['-o UserKnownHostsFile=/dev/null']
   end
 

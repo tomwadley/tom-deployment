@@ -7,12 +7,12 @@
   copy: src={{ wp_dbdump }} dest=/tmp/{{ dbdump }}
 
 - name: create database
-  mysql_db: name=wp_{{ site_name }} login_user=root login_password=pass1234 state=present
+  mysql_db: name=wp_{{ site_name }} login_user=root login_password={{ mysql_root_password }} state=present
   register: db
 
 - name: import database dump
-  mysql_db: name=wp_{{ site_name }} login_user=root login_password=pass1234 state=import target=/tmp/{{ dbdump }}
+  mysql_db: name=wp_{{ site_name }} login_user=root login_password={{ mysql_root_password }} state=import target=/tmp/{{ dbdump }}
   when: db.changed
 
 - name: create mysql user and grant privs for db
-  mysql_user: name=wp_{{ site_name }} login_user=root login_password=pass1234 priv=wp_{{ site_name }}.*:ALL password=pass1234_{{ site_name }}
+  mysql_user: name=wp_{{ site_name }} login_user=root login_password={{ mysql_root_password }} priv=wp_{{ site_name }}.*:ALL password={{ mysql_root_password }}_{{ site_name }}
