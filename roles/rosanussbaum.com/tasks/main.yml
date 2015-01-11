@@ -1,0 +1,24 @@
+---
+
+- name: install git
+  apt: pkg=git state=installed
+
+- name: put rosawadley.com in known_hosts
+  lineinfile: dest=~/.ssh/known_hosts line="{{ lookup('file', 'known_hosts/rosawadley.com') }}" create=true
+
+- name: checkout repo
+  git: repo=ssh://tom@rosawadley.com:/mnt/storage/rosa/Documents/code/git/rosanussbaum.com.git dest=~/git/rosanussbaum.com version=origin/master
+  notify: reload nginx
+
+- name: copy files to web root
+  command: rsync -a --delete --exclude='.*' ~/git/rosanussbaum.com /srv
+  changed_when: False
+
+- name: configure nginx site
+  copy: src=nginx-site dest=/etc/nginx/sites-available/rosanussbaum.com
+  notify: reload nginx
+
+- name: enable nginx site
+  file: src=/etc/nginx/sites-available/rosanussbaum.com dest=/etc/nginx/sites-enabled/rosanussbaum.com state=link
+  notify: reload nginx
+

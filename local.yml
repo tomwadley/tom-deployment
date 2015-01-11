@@ -3,8 +3,8 @@
 - hosts: local
   roles:
     - tomwadley.net
+    - rosanussbaum.com
     - periscopecollaborations.com
     - saunter
-    - { role: wordpress, site_name: rosanussbaum, host_name: rosanussbaum.com, wp_tarball: "~/rosawp-20140903.tar.gz", wp_dbdump: "~/rosawp_dbdump-20140907.sql" }
     - { role: wordpress, site_name: nicegallery, host_name: nicegallery.co.uk, wp_tarball: "~/nicegallery-20140907.tar.gz", wp_dbdump: "~/nicegallery_dbdump-20140907.sql"}
 
