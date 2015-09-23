@@ -6,14 +6,14 @@
 - name: install ruby-bundler
   apt: pkg=ruby-bundler state=installed
 
-- name: put rosawadley.com in known_hosts
-  lineinfile: dest=~/.ssh/known_hosts line="{{ lookup('file', 'known_hosts/rosawadley.com') }}" create=true
+- name: put horner.tomwadley.net in known_hosts
+  lineinfile: dest=~/.ssh/known_hosts line="{{ lookup('file', 'known_hosts/horner.tomwadley.net') }}" create=true
 
 - name: put github.com in known_hosts
   lineinfile: dest=~/.ssh/known_hosts line="{{ lookup('file', 'known_hosts/github.com') }}" create=true
 
 - name: checkout repo
-  git: repo=ssh://tom@rosawadley.com:/mnt/storage/tom/git/tomwadley.net.git dest=~/git/tomwadley.net version=origin/master
+  git: repo=ssh://tom@horner.tomwadley.net:/mnt/storage/tom/git/tomwadley.net.git dest=~/git/tomwadley.net version=origin/master
   notify: reload nginx
 
 - name: install gems
