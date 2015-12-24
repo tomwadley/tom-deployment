@@ -1,0 +1,7 @@
+---
+
+- hosts: server
+  roles:
+    - { role: staticsite, repo_name: static.nicegallery.co.uk, server_names: nicegallery.co.uk www.nicegallery.co.uk }
+
+
