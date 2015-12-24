@@ -1,0 +1,28 @@
+---
+
+- name: install git
+  apt: pkg=git state=installed
+
+- name: put horner.tomwadley.net in known_hosts
+  lineinfile: dest=~/.ssh/known_hosts line="{{ lookup('file', 'known_hosts/horner.tomwadley.net') }}" create=true
+
+- name: checkout repo
+  git: repo=ssh://tom@horner.tomwadley.net:/mnt/storage/tom/git/{{ repo_name }}.git dest=~/git/{{ repo_name }} version=origin/master
+  notify: reload nginx
+
+- name: copy files to web root
+  command: rsync -a --delete --exclude='.*' ~/git/{{ repo_name }} /srv
+  changed_when: False
+
+- name: configure nginx site
+  template: src=nginx-site dest=/etc/nginx/sites-available/{{ repo_name }}
+  notify: reload nginx
+
+- name: enable nginx site
+  file: src=/etc/nginx/sites-available/{{ repo_name }} dest=/etc/nginx/sites-enabled/{{ repo_name }} state=link
+  notify: reload nginx
+
+- name: configure nginx
+  copy: src=nginx-conf dest=/etc/nginx/conf.d/{{ repo_name }}.conf
+  notify: reload nginx
+

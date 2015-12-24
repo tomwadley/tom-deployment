@@ -2,5 +2,5 @@
 
 - hosts: server
   roles:
-    - periscopecollaborations.com
+    - { role: staticsite, repo_name: static.periscopecollaborations.com, server_names: periscopecollaborations.com www.periscopecollaborations.com }
 
