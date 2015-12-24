@@ -22,7 +22,3 @@
   file: src=/etc/nginx/sites-available/{{ repo_name }} dest=/etc/nginx/sites-enabled/{{ repo_name }} state=link
   notify: reload nginx
 
-- name: configure nginx
-  copy: src=nginx-conf dest=/etc/nginx/conf.d/{{ repo_name }}.conf
-  notify: reload nginx
-

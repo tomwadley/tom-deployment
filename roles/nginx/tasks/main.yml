@@ -16,3 +16,7 @@
 - name: upload ssl config include
   copy: src=ssl-config dest=/etc/nginx/ssl/config
   notify: reload nginx
+
+- name: configure nginx
+  copy: src=config dest=/etc/nginx/conf.d/config.conf
+  notify: reload nginx
