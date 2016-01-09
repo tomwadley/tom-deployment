@@ -14,10 +14,10 @@
   notify: reload nginx
 
 - name: install jekyll
-  command: gem install jekyll -v 2.5.3 -i .gems chdir=~/git/{{ site_name }}
+  command: gem install jekyll -v 2.5.3 chdir=~/git/{{ site_name }}
 
 - name: build site
-  command: .gems/bin/jekyll build chdir=~/git/{{ site_name }}
+  command: jekyll build chdir=~/git/{{ site_name }}
 
 - name: create web root
   file: path=/srv/{{ site_name }} state=directory
