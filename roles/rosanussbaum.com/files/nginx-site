@@ -1,7 +1,7 @@
 
 server {
     listen 80;
-    server_name rosanussbaum.com www.rosanussbaum.com;
+    server_name old.rosanussbaum.com;
     root /srv/rosanussbaum.com/dist;
     index index.html;
 

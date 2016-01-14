@@ -2,4 +2,4 @@
 
 - hosts: server
   roles:
-    - { role: jekyll-rosanussbaum.com, site_name: live-jekyll-rosanussbaum.com, server_names: live.rosanussbaum.com, revision: origin/master }
+    - { role: jekyll-rosanussbaum.com, site_name: live-jekyll-rosanussbaum.com, server_names: rosanussbaum.com www.rosanussbaum.com, revision: origin/master }
