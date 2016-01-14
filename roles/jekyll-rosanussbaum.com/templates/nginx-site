@@ -4,5 +4,7 @@ server {
     root /srv/{{ site_name }};
     index index.html;
 
-    location / { }
+    location = / {
+        return 303 /work/rosa-to-kanye/;
+    }
 }
