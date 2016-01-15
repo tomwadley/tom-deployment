@@ -6,9 +6,6 @@
 - name: install ruby
   apt: pkg=ruby state=installed
 
-- name: put github.com in known_hosts
-  lineinfile: dest=~/.ssh/known_hosts line="{{ lookup('file', 'known_hosts/github.com') }}" create=true
-
 - name: checkout repo
   git: repo=https://github.com/rosan/rosanussbaum.com dest=~/git/{{ site_name }} version={{ revision }}
   notify: reload nginx

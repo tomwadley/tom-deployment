@@ -15,9 +15,6 @@
 - name: install grunt-cli
   npm: name=grunt-cli global=yes
 
-- name: put horner.tomwadley.net in known_hosts
-  lineinfile: dest=~/.ssh/known_hosts line="{{ lookup('file', 'known_hosts/horner.tomwadley.net') }}" create=true
-
 - name: checkout repo
   git: repo=ssh://tom@horner.tomwadley.net:/mnt/storage/tom/git/meadgame.git dest=~/git/saunter version=origin/longpath
   notify: reload nginx
