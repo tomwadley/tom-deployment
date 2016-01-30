@@ -2,9 +2,21 @@
 server {
     listen 80;
     server_name saunter.tomwadley.net;
-    root /srv/saunter;
-    index index.html;
 
-    location / { }
+    include ssl/acme-challenges_saunter;
+
+    location / {
+        return 301 https://saunter.tomwadley.net$request_uri;
+    }
 }
 
+server {
+    listen 443 ssl;
+    server_name saunter.tomwadley.net;
+
+    include ssl/ssl-certificate_saunter;
+    include ssl/config;
+
+    root /srv/saunter;
+    index index.html;
+}

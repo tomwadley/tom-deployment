@@ -1,0 +1,4 @@
+location /.well-known/acme-challenge/ {
+    alias /etc/acme/{{ site_name }}/challenges/;
+    try_files $uri =404;
+}

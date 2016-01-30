@@ -1,0 +1,38 @@
+---
+
+- name: create working directory
+  file: path=/etc/acme/{{ site_name }} state=directory
+
+- name: create account private key
+  shell: openssl genrsa 4096 > account.key chdir=/etc/acme/{{ site_name }} creates=account.key
+
+- name: create domain private key
+  shell: openssl genrsa 4096 > domain.key chdir=/etc/acme/{{ site_name }} creates=domain.key
+
+- name: create csr
+  shell: openssl req -new -sha256 -key domain.key -subj "/CN={{ ssl_domain }}" > domain.csr chdir=/etc/acme/{{ site_name }} creates=domain.csr
+
+- name: create acme challenge directory
+  file: path=/etc/acme/{{ site_name }}/challenges state=directory
+
+- name: get acme_tiny.py (unverified download - dont try this at work)
+  get_url: url=https://raw.githubusercontent.com/diafygi/acme-tiny/master/acme_tiny.py dest=/etc/acme/{{ site_name }}/acme_tiny.py
+
+- name: create renew_cert.sh script
+  template: src=renew_cert.sh dest=/etc/acme/{{ site_name }}/renew_cert.sh mode=u+x
+
+- name: create temporary self signed cert so that nginx can start - notify to generate real cert
+  shell: openssl x509 -req -days 365 -in domain.csr -signkey domain.key -out chained.pem chdir=/etc/acme/{{ site_name }} creates=chained.pem
+  notify: reload nginx
+  notify: renew cert for {{ site_name }}
+
+- name: create nginx challenge include
+  template: src=challenges-nginx dest=/etc/nginx/ssl/acme-challenges_{{ site_name }}
+  notify: reload nginx
+
+- name: create ssl cert include
+  template: src=ssl-nginx dest=/etc/nginx/ssl/ssl-certificate_{{ site_name }}
+  notify: reload nginx
+
+- name: regenerate cert every month
+  file: src=/etc/acme/{{ site_name }}/renew_cert.sh dest=/etc/cron.monthly/renew_cert_{{ site_name }}.sh state=link

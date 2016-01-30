@@ -1,0 +1,5 @@
+---
+
+- name: renew cert for {{ site_name }}
+  command: /etc/acme/{{ site_name }}/renew_cert.sh
+
