@@ -1,6 +1,21 @@
 server {
     listen 80;
     server_name {{ server_names }};
+
+    include ssl/acme-challenges_{{ site_name }};
+
+    location / {
+        return 301 https://{{ ssl_domain }}$request_uri;
+    }
+}
+
+server {
+    listen 443 ssl;
+    server_name {{ ssl_domain }};
+
+    include ssl/ssl-certificate_{{ site_name }};
+    include ssl/config;
+
     root /srv/{{ site_name }};
     index index.html;
 
