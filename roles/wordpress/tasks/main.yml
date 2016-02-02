@@ -1,8 +1,8 @@
 ---
 
 - debug: msg="Importing Wordpress site '{{ site_name }}'"
-- debug: msg="wp_dbdump = {{ wp_dbdump | default("not defined - no database will be imported") }}"
-- debug: msg="wp_tarball = {{ wp_tarball | default("not defined - no wordpress tarball will be extracted") }}"
+- debug: msg="wp_dbdump = {{ wp_dbdump | default(\"not defined - no database will be imported\") }}"
+- debug: msg="wp_tarball = {{ wp_tarball | default(\"not defined - no wordpress tarball will be extracted\") }}"
 
 - name: install php modules required by wordpress
   apt: pkg={{ item }} state=installed
