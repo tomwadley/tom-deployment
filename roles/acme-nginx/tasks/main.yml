@@ -36,4 +36,4 @@
   notify: reload nginx
 
 - name: regenerate cert every month
-  file: src=/etc/acme/{{ site_name }}/renew_cert.sh dest=/etc/cron.monthly/renew_cert_{{ site_name }}.sh state=link
+  file: src=/etc/acme/{{ site_name }}/renew_cert.sh dest=/etc/cron.monthly/renew_cert_{{ site_name | regex_replace('\.', '_') }} state=link
