@@ -4,15 +4,8 @@ server {
 
     include ssl/acme-challenges_{{ site_name }};
 
-    #location / {
-    #    return 301 https://{{ ssl_domain }}$request_uri;
-    #}
-
-    root /srv/{{ site_name }};
-    index index.html;
-
-    location = / {
-        return 303 /work/rosa-to-kanye/;
+    location / {
+        return 301 https://{{ ssl_domain }}$request_uri;
     }
 }
 
