@@ -1,9 +1,9 @@
 [server]
-178.62.61.252 ansible_user=root
+root@178.62.61.252 ansible_user=root
 
 [rosa-server]
-178.62.42.221 ansible_user=root
+root@178.62.42.221 ansible_user=root
 
 [local]
-localhost ansible_user=root ansible_port=2222
+root@localhost ansible_user=root ansible_port=2222
 

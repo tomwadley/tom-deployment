@@ -24,8 +24,8 @@
 - name: create temporary self signed cert so that nginx can start - notify to generate real cert
   shell: openssl x509 -req -days 365 -in domain.csr -signkey domain.key -out chained.pem chdir=/etc/acme/{{ site_name }} creates=chained.pem
   notify:
-    -reload nginx
-    -renew cert for {{ site_name }}
+    - reload nginx
+    - renew cert for {{ site_name }}
 
 - name: create nginx challenge include
   template: src=challenges-nginx dest=/etc/nginx/ssl/acme-challenges_{{ site_name }}
