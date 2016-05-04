@@ -6,9 +6,6 @@
 - name: install ruby-bundler
   apt: pkg=ruby-bundler state=installed
 
-- name: put horner.tomwadley.net in known_hosts
-  lineinfile: dest=~/.ssh/known_hosts line="{{ lookup('file', 'known_hosts/horner.tomwadley.net') }}" create=true
-
 - name: checkout repo
   git: repo=ssh://tom@horner.tomwadley.net:/mnt/storage/tom/git/tomwadley.net.git dest=~/git/tomwadley.net version=origin/master
   notify: reload nginx

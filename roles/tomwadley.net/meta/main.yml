@@ -4,4 +4,5 @@ dependencies:
   - { role: common }
   - { role: nginx }
   - { role: knownhost-github }
+  - { role: knownhost-horner }
 
