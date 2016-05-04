@@ -1,0 +1,26 @@
+
+server {
+    listen 80;
+    server_name saunter.rosanussbaum.com;
+
+    include ssl/acme-challenges_saunter-thirty;
+
+    location / {
+        return 301 https://saunter.rosanussbaum.com$request_uri;
+    }
+}
+
+server {
+    listen 443 ssl;
+    server_name saunter.rosanussbaum.com;
+
+    include ssl/ssl-certificate_saunter-thirty;
+    include ssl/config;
+
+    location ~*  \.(jpg|jpeg)$ {
+        expires 7d;
+    }
+
+    root /srv/saunter-thirty;
+    index index.html;
+}
