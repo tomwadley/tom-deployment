@@ -20,6 +20,6 @@ server {
     index index.html;
 
     location = / {
-        return 303 /work/rosa-to-kanye/;
+        return 303 {{ root_path }};
     }
 }

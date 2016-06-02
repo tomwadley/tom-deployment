@@ -16,6 +16,12 @@
 - name: build site
   command: jekyll build chdir=~/git/{{ site_name }}
 
+- name: fetch source vars file
+  fetch: src={{ ansible_env.HOME }}/git/{{ site_name }}/.ansible.yml flat=yes dest=/tmp/source_vars.yml fail_on_missing=yes
+
+- name: parse source vars file
+  include_vars: /tmp/source_vars.yml
+
 - name: create web root
   file: path=/srv/{{ site_name }} state=directory
 
