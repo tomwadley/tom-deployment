@@ -1,0 +1,29 @@
+
+---
+
+- name: add syncthing pgp key
+  apt_key: url=https://syncthing.net/release-key.txt
+
+- name: add syncthing repo
+  apt_repository: repo='deb http://apt.syncthing.net/ syncthing release'
+
+- name: install syncthing
+  apt: pkg=syncthing update_cache=yes
+
+- name: create syncthing user
+  user: name=syncthing system=yes shell=/bin/false home=/var/syncthing
+
+- name: install init script
+  copy: src=init dest=/etc/init.d/syncthing owner=root group=root mode=0755
+
+- name: start syncthing and enable on boot
+  service: name=syncthing enabled=yes state=started
+
+- name: open syncthing traffic port
+  ufw: rule=allow port=22000 proto=tcp
+
+- name: open syncthing discovery port
+  ufw: rule=allow port=21027 proto=udp
+
+- name: open syncthing web gui port
+  ufw: rule=allow port=8384 proto=tcp
