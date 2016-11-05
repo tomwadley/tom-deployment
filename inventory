@@ -4,8 +4,5 @@ server ansible_host=178.62.61.252 ansible_user=root
 [serverny1]
 serverny1 ansible_host=67.205.146.217 ansible_user=root
 
-[rosa-server]
-root@178.62.42.221 ansible_user=root
-
 [local]
 127.0.0.1 ansible_ssh_user=root ansible_ssh_port=2222 ansible_ssh_private_key_file=.vagrant/machines/default/virtualbox/private_key
