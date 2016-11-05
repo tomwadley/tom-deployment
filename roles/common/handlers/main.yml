@@ -4,7 +4,7 @@
   service: name=ssh state=reloaded
 
 - name: reboot
-  command: /sbin/reboot
+  command: /sbin/shutdown -r +1
 
 - name: reboot if required
   shell: "[ -f /var/run/reboot-required ]"

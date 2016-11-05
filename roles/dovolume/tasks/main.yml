@@ -1,0 +1,9 @@
+---
+
+- name: mount digital ocean volume
+  mount:
+    name: /mnt/vol
+    src: /dev/disk/by-id/scsi-0DO_Volume_volume-nyc1-01
+    fstype: ext4
+    opts: defaults,nofail,discard
+    state: mounted

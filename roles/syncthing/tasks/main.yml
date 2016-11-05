@@ -1,4 +1,3 @@
-
 ---
 
 - name: add syncthing pgp key
@@ -11,7 +10,7 @@
   apt: pkg=syncthing update_cache=yes
 
 - name: create syncthing user
-  user: name=syncthing system=yes shell=/bin/false home=/var/syncthing
+  user: name=syncthing system=yes shell=/bin/false home=/mnt/vol/syncthing
 
 - name: install init script
   copy: src=init dest=/etc/init.d/syncthing owner=root group=root mode=0755

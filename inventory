@@ -1,5 +1,8 @@
 [server]
-root@178.62.61.252 ansible_user=root
+server ansible_host=178.62.61.252 ansible_user=root
+
+[serverny1]
+serverny1 ansible_host=67.205.146.217 ansible_user=root
 
 [rosa-server]
 root@178.62.42.221 ansible_user=root
