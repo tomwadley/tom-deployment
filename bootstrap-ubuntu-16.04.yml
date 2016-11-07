@@ -1,4 +1,6 @@
-- hosts: serverny1
+- hosts:
+    - serverny1
+    - serverny3
   gather_facts: False
   
   tasks:

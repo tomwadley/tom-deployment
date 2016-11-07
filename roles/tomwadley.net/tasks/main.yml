@@ -3,6 +3,12 @@
 - name: install git
   apt: pkg=git state=installed
 
+- name: install build-essential
+  apt: pkg=build-essential state=installed
+
+- name: install ruby-dev
+  apt: pkg=ruby-dev state=installed
+
 - name: install ruby-bundler
   apt: pkg=ruby-bundler state=installed
 
@@ -11,7 +17,7 @@
   notify: reload nginx
 
 - name: install gems
-  command: bundle install chdir=~/git/tomwadley.net
+  command: bundle install --deployment chdir=~/git/tomwadley.net
 
 - name: build site
   command: bundle exec jekyll build chdir=~/git/tomwadley.net
