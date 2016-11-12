@@ -11,7 +11,7 @@
   notify: reload nginx
 
 - name: install jekyll
-  command: gem install jekyll -v 2.5.3 chdir=~/git/{{ site_name }}
+  command: gem install jekyll -v 3.3.0 chdir=~/git/{{ site_name }}
 
 - name: build site
   command: jekyll build chdir=~/git/{{ site_name }}

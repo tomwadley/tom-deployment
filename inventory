@@ -2,7 +2,7 @@
 server ansible_host=178.62.61.252 ansible_user=root
 
 [serverny3]
-serverny3 ansible_host=104.131.33.248 ansible_user=root
+serverny3 ansible_host=138.197.16.22 ansible_user=root
 
 [serverny1]
 serverny1 ansible_host=67.205.146.217 ansible_user=root
