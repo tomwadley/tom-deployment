@@ -3,6 +3,7 @@
 dependencies:
   - { role: common }
   - { role: nginx }
+  - { role: acme-nginx }
   - { role: knownhost-github }
   - { role: knownhost-sync }
 

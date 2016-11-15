@@ -1,7 +1,12 @@
 server {
     listen 80 default_server;
     server_name tomwadley.net www.tomwadley.net;
-    return 301 https://tomwadley.net$request_uri;
+
+    include ssl/acme-challenges_tomwadley.net;
+
+    location / {
+        return 301 https://tomwadley.net$request_uri;
+    }
 }
 
 server {
@@ -9,8 +14,7 @@ server {
     server_name www.tomwadley.net;
     return 301 https://tomwadley.net$request_uri;
 
-    ssl_certificate /etc/nginx/ssl/tomwadley.net.bundle.crt;
-    ssl_certificate_key /etc/nginx/ssl/tomwadley.net.key;
+    include ssl/ssl-certificate_tomwadley.net;
     include ssl/config;
 }
 
@@ -18,8 +22,7 @@ server {
     listen 443 ssl;
     server_name tomwadley.net;
 
-    ssl_certificate /etc/nginx/ssl/tomwadley.net.bundle.crt;
-    ssl_certificate_key /etc/nginx/ssl/tomwadley.net.key;
+    include ssl/ssl-certificate_tomwadley.net;
     include ssl/config;
 
     root /srv/tomwadley.net;

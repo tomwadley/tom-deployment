@@ -2,5 +2,5 @@
 
 - hosts: serverny3
   roles:
-    - tomwadley.net
+    - { role: tomwadley.net, site_name: tomwadley.net, ssl_domain: tomwadley.net }
 
