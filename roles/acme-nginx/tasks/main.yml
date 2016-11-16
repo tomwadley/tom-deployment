@@ -9,8 +9,13 @@
 - name: create domain private key
   shell: openssl genrsa 4096 > domain.key chdir=/etc/acme/{{ site_name }} creates=domain.key
 
-- name: create csr
+- name: create csr (for single domain)
   shell: openssl req -new -sha256 -key domain.key -subj "/CN={{ ssl_domain }}" > domain.csr chdir=/etc/acme/{{ site_name }} creates=domain.csr
+  when: ssl_domain is string
+
+- name: create csr (for multiple domains)
+  shell: openssl req -new -sha256 -key domain.key -subj "/" -reqexts SAN -config <(cat /etc/ssl/openssl.cnf <(printf "[SAN]\nsubjectAltName=DNS:{{ ssl_domain | join(',DNS:') }}")) > domain.csr chdir=/etc/acme/{{ site_name }} executable=/bin/bash creates=domain.csr
+  when: ssl_domain is iterable and ssl_domain is not string
 
 - name: create acme challenge directory
   file: path=/etc/acme/{{ site_name }}/challenges state=directory
