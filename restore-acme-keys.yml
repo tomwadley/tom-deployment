@@ -1,0 +1,19 @@
+- hosts:
+    - serverny3
+
+  vars:
+    - site_name: live-jekyll-rosanussbaum.com
+  
+  tasks:
+
+  - name: create destination directory
+    file: path=/etc/acme/{{ site_name }} state=directory
+
+  - name: upload backup archive
+    copy: src=acme_key_backup-{{ site_name }}.tar.enc dest=/etc/acme/{{ site_name }}/acme_key_backup.tar.enc 
+
+  - name: extract backup archive
+    shell: openssl aes-256-cbc -d -salt -in acme_key_backup.tar.enc -pass "pass:{{ key_backup_password }}" | tar -x
+    args:
+      chdir: /etc/acme/{{ site_name }}
+

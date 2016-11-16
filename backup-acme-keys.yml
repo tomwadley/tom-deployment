@@ -1,0 +1,15 @@
+- hosts:
+    - server
+
+  vars:
+    - site_name: live-jekyll-rosanussbaum.com
+  
+  tasks:
+
+  - name: create backup archive
+    shell: tar -c account.key domain.key chained.pem | openssl aes-256-cbc -salt -out acme_key_backup.tar.enc -pass "pass:{{ key_backup_password }}"
+    args:
+      chdir: /etc/acme/{{ site_name }}
+
+  - name: fetch backup archive
+    fetch: src=/etc/acme/{{ site_name }}/acme_key_backup.tar.enc dest=acme_key_backup-{{ site_name }}.tar.enc flat=yes fail_on_missing=yes
