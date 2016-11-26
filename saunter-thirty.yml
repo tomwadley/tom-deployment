@@ -1,5 +1,7 @@
 ---
 
-- hosts: server
+- hosts:
+    - local
+    - serverny3
   roles:
     - saunter-thirty
