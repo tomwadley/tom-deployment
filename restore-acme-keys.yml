@@ -1,8 +1,5 @@
 - hosts:
     - serverny3
-
-  vars:
-    - site_name: live-jekyll-rosanussbaum.com
   
   tasks:
 
@@ -13,7 +10,7 @@
     copy: src=acme_key_backup-{{ site_name }}.tar.enc dest=/etc/acme/{{ site_name }}/acme_key_backup.tar.enc 
 
   - name: extract backup archive
-    shell: openssl aes-256-cbc -d -salt -in acme_key_backup.tar.enc -pass "pass:{{ key_backup_password }}" | tar -x
+    shell: openssl enc -aes-256-cbc -d -salt -in acme_key_backup.tar.enc -k {{ key_backup_password }} -md sha256 | tar -x
     args:
       chdir: /etc/acme/{{ site_name }}
 

@@ -1,15 +1,24 @@
 - hosts:
-    - server
+    - serverny3
 
   vars:
-    - site_name: live-jekyll-rosanussbaum.com
+    - site_names:
+        - saunter
+        - live-jekyll-rosanussbaum.com
+        - saunter-thirty
+        - static.nicegallery.co.uk
+        - saunter
+        - staging-jekyll-rosanussbaum.com
+        - tomwadley.net
   
   tasks:
 
   - name: create backup archive
-    shell: tar -c account.key domain.key chained.pem | openssl aes-256-cbc -salt -out acme_key_backup.tar.enc -pass "pass:{{ key_backup_password }}"
+    shell: tar -c account.key domain.key chained.pem | openssl enc -aes-256-cbc -salt -out acme_key_backup.tar.enc -k {{ key_backup_password }} -md sha256
     args:
-      chdir: /etc/acme/{{ site_name }}
+      chdir: /etc/acme/{{ item }}
+    with_items: "{{ site_names }}"
 
   - name: fetch backup archive
-    fetch: src=/etc/acme/{{ site_name }}/acme_key_backup.tar.enc dest=acme_key_backup-{{ site_name }}.tar.enc flat=yes fail_on_missing=yes
+    fetch: src=/etc/acme/{{ item }}/acme_key_backup.tar.enc dest=acme_key_backup-{{ item }}.tar.enc flat=yes fail_on_missing=yes
+    with_items: "{{ site_names }}"
