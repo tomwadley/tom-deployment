@@ -1,5 +1,6 @@
 server {
     listen 80 default_server;
+    listen [::]:80 default_server;
     server_name tomwadley.net www.tomwadley.net;
 
     include ssl/acme-challenges_tomwadley.net;
@@ -11,7 +12,9 @@ server {
 
 server {
     listen 443 ssl;
+    listen [::]:443 ssl;
     server_name www.tomwadley.net;
+
     return 301 https://tomwadley.net$request_uri;
 
     include ssl/ssl-certificate_tomwadley.net;
@@ -20,6 +23,7 @@ server {
 
 server {
     listen 443 ssl;
+    listen [::]:443 ssl;
     server_name tomwadley.net;
 
     include ssl/ssl-certificate_tomwadley.net;

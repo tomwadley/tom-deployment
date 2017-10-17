@@ -1,5 +1,6 @@
 server {
     listen 80;
+    listen [::]:80;
     server_name {{ server_names }};
 
     include ssl/acme-challenges_{{ site_name }};
@@ -11,6 +12,7 @@ server {
 
 server {
     listen 443 ssl;
+    listen [::]:443 ssl;
     server_name {{ ssl_domain }};
 
     include ssl/ssl-certificate_{{ site_name }};
