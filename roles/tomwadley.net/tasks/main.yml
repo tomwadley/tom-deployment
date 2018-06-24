@@ -13,7 +13,7 @@
   apt: pkg=ruby-bundler state=installed
 
 - name: checkout repo
-  git: repo=ssh://sync.tomwadley.net:/mnt/vol/syncthing/tom-git/tomwadley.net.git dest=~/git/tomwadley.net version=origin/master
+  git: repo=ssh://sync.tomwadley.net:/mnt/vol/syncthing/tom-git/tomwadley.net.git dest=~/git/tomwadley.net version={{ revision }}
   notify: reload nginx
 
 - name: install gems

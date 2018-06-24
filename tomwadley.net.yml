@@ -4,6 +4,7 @@
   roles:
     - role: tomwadley.net
       site_name: tomwadley.net
+      revision: origin/master
       ssl_domain:
         - tomwadley.net
         - www.tomwadley.net
