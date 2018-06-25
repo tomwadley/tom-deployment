@@ -1,4 +1,0 @@
----
-
-- name: put sync.tomwadley.net in known_hosts
-  lineinfile: dest=~/.ssh/known_hosts line="{{ lookup('file', 'sync.tomwadley.net') }}" create=true

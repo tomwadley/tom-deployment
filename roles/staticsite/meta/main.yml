@@ -4,5 +4,5 @@ dependencies:
   - { role: common }
   - { role: nginx }
   - { role: acme-nginx }
-  - { role: knownhost-sync }
+  - { role: knownhost-horner }
 
