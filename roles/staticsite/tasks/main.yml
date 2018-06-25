@@ -4,7 +4,7 @@
   apt: pkg=git state=installed
 
 - name: checkout repo
-  git: repo=ssh://horner.tomwadley.net:/mnt/storage/tom/git/{{ repo_name }}.git dest=~/git/{{ repo_name }} version=origin/master
+  git: repo=ssh://go@horner.tomwadley.net:/mnt/storage/tom/git/{{ repo_name }}.git dest=~/git/{{ repo_name }} version=origin/master
   notify: reload nginx
 
 - name: copy files to web root

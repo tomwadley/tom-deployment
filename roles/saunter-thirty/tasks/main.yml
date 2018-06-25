@@ -16,7 +16,7 @@
   npm: name=grunt-cli global=yes
 
 - name: checkout repo
-  git: repo=ssh://horner.tomwadley.net:/mnt/storage/tom/git/meadgame.git dest=~/git/saunter-thirty version=origin/12o-thirty
+  git: repo=ssh://go@horner.tomwadley.net:/mnt/storage/tom/git/meadgame.git dest=~/git/saunter-thirty version=origin/12o-thirty
   notify: reload nginx
 
 - name: install dependencies
