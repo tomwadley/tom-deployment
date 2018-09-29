@@ -1,0 +1,7 @@
+---
+- import_playbook: tomwadley.net.yml
+- import_playbook: staging-jekyll-rosanussbaum.com.yml
+- import_playbook: live-jekyll-rosanussbaum.com.yml
+- import_playbook: saunter.yml
+- import_playbook: saunter-thirty.yml
+- import_playbook: static.nicegallery.co.uk.yml

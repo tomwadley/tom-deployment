@@ -1,5 +1,5 @@
 ---
 
-- hosts: serverny3
+- hosts: server
   roles:
     - { role: jekyll-rosanussbaum.com, site_name: staging-jekyll-rosanussbaum.com, server_names: staging.rosanussbaum.com, ssl_domain: staging.rosanussbaum.com, revision: origin/master }

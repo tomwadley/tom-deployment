@@ -1,6 +1,7 @@
 
 server {
     listen 80;
+    listen [::]:80;
     server_name saunter.tomwadley.net;
 
     include ssl/acme-challenges_saunter;
@@ -12,6 +13,7 @@ server {
 
 server {
     listen 443 ssl;
+    listen [::]:443 ssl;
     server_name saunter.tomwadley.net;
 
     include ssl/ssl-certificate_saunter;

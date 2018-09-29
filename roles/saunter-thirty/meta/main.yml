@@ -5,4 +5,5 @@ dependencies:
   - { role: nginx }
   - { role: acme-nginx, site_name: saunter-thirty, ssl_domain: saunter.rosanussbaum.com }
   - { role: knownhost-horner }
+  - { role: nodejs }
 

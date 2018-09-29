@@ -1,11 +1,8 @@
-[server]
-server ansible_host=178.62.61.252 ansible_user=root
-
-[serverny3]
+[oldserver]
 serverny3 ansible_host=138.197.16.22 ansible_user=root
 
-[serverny1]
-serverny1 ansible_host=67.205.146.217 ansible_user=root
+[server]
+fenix-ny1-01 ansible_host=142.93.55.71 ansible_user=root
 
 [local]
 local ansible_host=127.0.0.1 ansible_user=root ansible_port=2222 ansible_ssh_common_args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'

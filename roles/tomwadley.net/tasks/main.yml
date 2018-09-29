@@ -1,16 +1,16 @@
 ---
 
 - name: install git
-  apt: pkg=git state=installed
+  apt: pkg=git state=present
 
 - name: install build-essential
-  apt: pkg=build-essential state=installed
+  apt: pkg=build-essential state=present
 
 - name: install ruby-dev
-  apt: pkg=ruby-dev state=installed
+  apt: pkg=ruby-dev state=present
 
 - name: install ruby-bundler
-  apt: pkg=ruby-bundler state=installed
+  apt: pkg=ruby-bundler state=present
 
 - name: checkout repo
   git: repo=ssh://go@horner.tomwadley.net:/mnt/storage/tom/git/tomwadley.net.git dest=~/git/tomwadley.net version={{ revision }}

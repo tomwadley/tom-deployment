@@ -1,12 +1,11 @@
 ---
 
-- name: update all packages
-  apt: upgrade=dist update_cache=yes
-  notify: reboot if required
-
 - name: disable ssh password auth
-  lineinfile: dest=/etc/ssh/sshd_config regexp="^PasswordAuthentication " line="PasswordAuthentication no" state="present"
+  lineinfile: dest=/etc/ssh/sshd_config regexp="^PasswordAuthentication " insertafter="^#PasswordAuthentication " line="PasswordAuthentication no"
   notify: restart ssh
+
+- name: install ufw
+  apt: pkg=ufw state=present
 
 - name: allow ssh
   ufw: rule=allow port=22 proto=tcp
@@ -21,16 +20,9 @@
   ufw: state=enabled policy=deny
 
 - name: install unattended-upgrades
-  apt: pkg=unattended-upgrades state=installed
-
-- name: configure unattended upgrades
-  copy: src=10periodic dest=/etc/apt/apt.conf.d/10periodic
+  apt: pkg=unattended-upgrades state=present
+  notify: run unattended upgrade
 
 - name: enable auto reboot when required
   lineinfile: dest=/etc/apt/apt.conf.d/50unattended-upgrades regexp='^(//)?Unattended-Upgrade::Automatic-Reboot ' line='Unattended-Upgrade::Automatic-Reboot "true";'
-
-- name: set auto reboot time
-  lineinfile: dest=/etc/apt/apt.conf.d/50unattended-upgrades regexp='^(//)?Unattended-Upgrade::Automatic-Reboot-Time ' line='Unattended-Upgrade::Automatic-Reboot-Time "02:00";'
-
-- name: enable normal updates in addition to security updates
-  lineinfile: dest=/etc/apt/apt.conf.d/50unattended-upgrades regexp='^(//)?\s*"\${distro_id}:\${distro_codename}-updates";' line='{{'\t'}}"${distro_id}:${distro_codename}-updates";'
+  notify: run unattended upgrade

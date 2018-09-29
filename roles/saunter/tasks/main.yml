@@ -1,16 +1,7 @@
 ---
 
 - name: install git
-  apt: pkg=git state=installed
-
-- name: install nodejs
-  apt: pkg=nodejs state=installed
-
-- name: install nodejs-legacy
-  apt: pkg=nodejs-legacy state=installed
-
-- name: install npm
-  apt: pkg=npm state=installed
+  apt: pkg=git state=present
 
 - name: install grunt-cli
   npm: name=grunt-cli global=yes

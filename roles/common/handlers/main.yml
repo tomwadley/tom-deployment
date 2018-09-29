@@ -3,13 +3,5 @@
 - name: restart ssh
   service: name=ssh state=reloaded
 
-- name: reboot
-  command: /sbin/shutdown -r +1
-
-- name: reboot if required
-  shell: "[ -f /var/run/reboot-required ]"
-  failed_when: False
-  register: reboot_required
-  changed_when: reboot_required.rc == 0
-  notify: reboot
-
+- name: run unattended upgrade
+  command: /usr/bin/unattended-upgrade -d

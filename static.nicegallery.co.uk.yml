@@ -1,8 +1,6 @@
 ---
 
-- hosts:
-    - local
-    - serverny3
+- hosts: server
   roles:
     - { role: staticsite, repo_name: static.nicegallery.co.uk, server_names: nicegallery.co.uk www.nicegallery.co.uk, site_name: static.nicegallery.co.uk, ssl_domain: nicegallery.co.uk }
 

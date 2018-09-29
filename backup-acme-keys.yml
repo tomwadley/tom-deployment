@@ -1,5 +1,5 @@
 - hosts:
-    - serverny3
+    - oldserver
 
   vars:
     - site_names:
@@ -7,7 +7,6 @@
         - live-jekyll-rosanussbaum.com
         - saunter-thirty
         - static.nicegallery.co.uk
-        - saunter
         - staging-jekyll-rosanussbaum.com
         - tomwadley.net
   

@@ -21,7 +21,7 @@
   file: path=/etc/acme/{{ site_name }}/challenges state=directory
 
 - name: get acme_tiny.py (unverified download - dont try this at work)
-  get_url: url=https://raw.githubusercontent.com/diafygi/acme-tiny/master/acme_tiny.py dest=/etc/acme/{{ site_name }}/acme_tiny.py
+  get_url: url=https://raw.githubusercontent.com/diafygi/acme-tiny/master/acme_tiny.py dest=/etc/acme/{{ site_name }}/acme_tiny.py force=true
 
 - name: create renew_cert.sh script
   template: src=renew_cert.sh dest=/etc/acme/{{ site_name }}/renew_cert.sh mode=u+x

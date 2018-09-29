@@ -1,16 +1,27 @@
-- hosts:
-    - serverny3
+- hosts: server
+
+  vars:
+    - site_names:
+        - saunter
+        - live-jekyll-rosanussbaum.com
+        - saunter-thirty
+        - static.nicegallery.co.uk
+        - staging-jekyll-rosanussbaum.com
+        - tomwadley.net
   
   tasks:
 
   - name: create destination directory
-    file: path=/etc/acme/{{ site_name }} state=directory
+    file: path=/etc/acme/{{ item }} state=directory
+    with_items: "{{ site_names }}"
 
   - name: upload backup archive
-    copy: src=acme_key_backup-{{ site_name }}.tar.enc dest=/etc/acme/{{ site_name }}/acme_key_backup.tar.enc 
+    copy: src=acme_key_backup-{{ item }}.tar.enc dest=/etc/acme/{{ item }}/acme_key_backup.tar.enc 
+    with_items: "{{ site_names }}"
 
   - name: extract backup archive
     shell: openssl enc -aes-256-cbc -d -salt -in acme_key_backup.tar.enc -k {{ key_backup_password }} -md sha256 | tar -x
     args:
-      chdir: /etc/acme/{{ site_name }}
+      chdir: /etc/acme/{{ item }}
+    with_items: "{{ site_names }}"
 
