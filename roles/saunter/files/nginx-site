@@ -6,6 +6,9 @@ server {
 
     include ssl/acme-challenges_saunter;
 
+    access_log /var/log/nginx/access_saunter.log;
+    error_log /var/log/nginx/error_saunter.log;
+
     location / {
         return 301 https://saunter.tomwadley.net$request_uri;
     }
@@ -21,4 +24,7 @@ server {
 
     root /srv/saunter;
     index index.html;
+
+    access_log /var/log/nginx/access_saunter.log;
+    error_log /var/log/nginx/error_saunter.log;
 }

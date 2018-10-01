@@ -5,6 +5,9 @@ server {
 
     include ssl/acme-challenges_tomwadley.net;
 
+    access_log /var/log/nginx/access_tomwadley.net.log;
+    error_log /var/log/nginx/error_tomwadley.net.log;
+
     location / {
         return 301 https://tomwadley.net$request_uri;
     }
@@ -19,6 +22,9 @@ server {
 
     include ssl/ssl-certificate_tomwadley.net;
     include ssl/config;
+
+    access_log /var/log/nginx/access_tomwadley.net.log;
+    error_log /var/log/nginx/error_tomwadley.net.log;
 }
 
 server {
@@ -31,6 +37,9 @@ server {
 
     root /srv/tomwadley.net;
     index index.html;
+
+    access_log /var/log/nginx/access_tomwadley.net.log;
+    error_log /var/log/nginx/error_tomwadley.net.log;
 
     location / { }
 }

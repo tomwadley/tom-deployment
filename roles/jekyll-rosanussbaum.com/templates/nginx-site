@@ -5,6 +5,9 @@ server {
 
     include ssl/acme-challenges_{{ site_name }};
 
+    access_log /var/log/nginx/access_{{ site_name }}.log;
+    error_log /var/log/nginx/error_{{ site_name }}.log;
+
     location / {
         return 301 https://{{ ssl_domain }}$request_uri;
     }
@@ -20,6 +23,9 @@ server {
 
     root /srv/{{ site_name }};
     index index.html;
+
+    access_log /var/log/nginx/access_{{ site_name }}.log;
+    error_log /var/log/nginx/error_{{ site_name }}.log;
 
     location = / {
         return 303 {{ root_path }};
